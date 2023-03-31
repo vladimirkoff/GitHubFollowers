@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct FollowerViewModel {
+    let profileUrl: String
+    let login: String
+}

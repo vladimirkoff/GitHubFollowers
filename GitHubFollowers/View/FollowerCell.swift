@@ -6,29 +6,50 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FollowerCell: UICollectionViewCell {
     //MARK: - Properties
     
+    var viewModel: FollowerViewModel? {
+        didSet { configure() }
+    }
+    
+    var userName: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .white
+        return label
+    }()
+    
     private let profileImage: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.image = UIImage(named: "github")
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
         return iv
     }()
+    
+    
     
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .purple
+        self.backgroundColor = .darkGray
         
         
         addSubview(profileImage)
-        profileImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-        profileImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
-        profileImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
-        profileImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -40).isActive = true
+        profileImage.heightAnchor.constraint(equalToConstant: self.frame.height - 45 ).isActive = true
+        profileImage.widthAnchor.constraint(equalToConstant: self.frame.width - 45 ).isActive = true
+        profileImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 12).isActive = true
+        profileImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        profileImage.layer.cornerRadius = 8
+
+        
+        addSubview(userName)
+        userName.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -7).isActive = true
+        userName.leftAnchor.constraint(equalTo: profileImage.leftAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -36,4 +57,10 @@ class FollowerCell: UICollectionViewCell {
     }
     
     //MARK: - Helpers
+    
+    func configure() {
+        guard let viewModel = viewModel else { return }
+        profileImage.sd_setImage(with: URL(string: viewModel.profileUrl))
+        userName.text = viewModel.login
+    }
 }
