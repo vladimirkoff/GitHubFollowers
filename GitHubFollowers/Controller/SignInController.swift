@@ -74,6 +74,20 @@ class SignInViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let data = UserData()
+                data.username = ""
+                realm.add(data)
+
+            }
+            
+            
+        } catch {
+            print("Error")
+        }
+        checkIfLoggedIn()
 
     }
     
@@ -117,6 +131,27 @@ class SignInViewController: UIViewController {
         try realm.write({
             realm.add(data)
         })
+    }
+    
+    func checkIfLoggedIn() {
+        let realm = try! Realm()
+        
+        do {
+            try realm.write({
+                let username = realm.objects(UserData.self).sorted(by: { a, b in
+                    a.username.count > b.username.count
+                })[0].username
+                print(username)
+                if username != "" {
+                    let vc = FollowersController(collectionViewLayout: UICollectionViewFlowLayout())
+                    navigationController?.pushViewController(vc, animated: true)
+                }
+                
+            })
+        } catch {
+            print("Error")
+        }
+            
     }
     
     func configureUI() {

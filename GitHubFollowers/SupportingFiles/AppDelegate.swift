@@ -17,42 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-//        do {
-//            let realm = try Realm()
-//
-//
-//            try realm.write {
-//                let data = UserData()
-//                data.username = ""
-//
-//                    realm.add(data)
-//                let objetcs = realm.objects(UserData.self)
-//                var isLoggedIn = false
-//                for object in objetcs {
-//                    print("Here")
-//                    if object.username != "" {
-//                        isLoggedIn = true
-//                    }
-//                }
-//                print(isLoggedIn)
-//                if !isLoggedIn {
-//
-//
-//                    window?.rootViewController = UINavigationController(rootViewController: SignInViewController())
-//
-//
-//
-//                } else {
-//                    window?.rootViewController = UINavigationController(rootViewController: FollowersController(collectionViewLayout: UICollectionViewFlowLayout()))
-//                }
-//
-//
-//
-//
-//            }
-//        } catch {
-//            print("Error adding Realm - \(error)")
-//        }
+
         window?.rootViewController = UINavigationController(rootViewController: SignInViewController())
         window?.makeKeyAndVisible()
         return true

@@ -19,9 +19,15 @@ class FollowersController: UICollectionViewController {
     private var userManager = UserManager()
     private var realmUser: Results<UserData>? {
         didSet {
-            userManager.fetchUser(username: realmUser![0].username)
-            followersManager.fetchFollowers(username: realmUser![0].username)
-            followersManager.fetcFollowing(username: realmUser![0].username)
+            userManager.fetchUser(username: realmUser!.sorted(by: { a, b in
+                a.username.count > b.username.count
+            })[0].username)
+            followersManager.fetchFollowers(username: realmUser!.sorted(by: { a, b in
+                a.username.count > b.username.count
+            })[0].username)
+            followersManager.fetcFollowing(username: realmUser!.sorted(by: { a, b in
+                a.username.count > b.username.count
+            })[0].username)
         }
     }
     
@@ -49,7 +55,6 @@ class FollowersController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       print("dsbhjbkfcnbshbinsd")
         collectionView.backgroundColor = .darkGray
         configureUI()
         followersManager.delegate = self
@@ -142,7 +147,6 @@ extension FollowersController: UICollectionViewDelegateFlowLayout {
         let realm = try! Realm()
         do {
             try realm.write {
-//                realm.delete(realmUser![0])
                 realm.deleteAll()
             }
         } catch {

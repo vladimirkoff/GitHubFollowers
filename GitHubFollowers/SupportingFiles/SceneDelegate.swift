@@ -21,13 +21,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene)
         
-//        window?.rootViewController = UINavigationController(rootViewController: FollowersController(collectionViewLayout: UICollectionViewFlowLayout())
-//                                                            
-//        )
-//        
-//        
-//        window?.makeKeyAndVisible()
-        
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let data = UserData()
+                data.username = ""
+                realm.add(data)
+                
+                window?.rootViewController = UINavigationController(rootViewController: SignInViewController())
+            } 
+            
+            
+        } catch {
+            print("Error")
+        }
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
