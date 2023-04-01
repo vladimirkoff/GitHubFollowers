@@ -8,7 +8,7 @@
 import Foundation
 
 protocol UserManagerDelegate {
-    func fetchUser(user: Follower)
+    func fetchUser(user: User)
 }
 
 struct UserManager {
@@ -16,6 +16,7 @@ struct UserManager {
     var delegate: UserManagerDelegate?
      
     func fetchUser(username: String) {
+        print("Username is - \(username)")
          guard let url = URL(string: "https://api.github.com/users/\(username)") else { return }
          
          let session = URLSession(configuration: .default)
@@ -35,15 +36,12 @@ struct UserManager {
          let decoder = JSONDecoder()
          
          do {
-             let decodedData = try decoder.decode(Follower.self, from: data)
+             let decodedData = try decoder.decode(User.self, from: data)
              DispatchQueue.main.async {
-                 
                  self.delegate?.fetchUser(user: decodedData)
              }
          } catch {
              print("Error parsing JSON user")
          }
      }
-    
-    
 }

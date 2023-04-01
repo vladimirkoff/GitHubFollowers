@@ -17,33 +17,28 @@ class FollowersController: UICollectionViewController {
     
     private var followersManager = FollowersManager()
     private var userManager = UserManager()
+    
+    private var username: String?
+    
     private var realmUser: Results<UserData>? {
         didSet {
-            userManager.fetchUser(username: realmUser!.sorted(by: { a, b in
+            let realmArray = realmUser!.sorted(by: { a, b in
                 a.username.count > b.username.count
-            })[0].username)
-            followersManager.fetchFollowers(username: realmUser!.sorted(by: { a, b in
-                a.username.count > b.username.count
-            })[0].username)
-            followersManager.fetcFollowing(username: realmUser!.sorted(by: { a, b in
-                a.username.count > b.username.count
-            })[0].username)
+            })
+            username = realmArray[0].username
+            userManager.fetchUser(username: realmArray[0].username)
+            followersManager.fetchFollowers(username: realmArray[0].username)
         }
     }
     
-    private var followers: [Follower]? {
+    private var users: [Follower]? {
         didSet { collectionView.reloadData() }
     }
     
-    private var following: [Follower]? {
-        didSet { collectionView.reloadData() }
-    }
-    
-    private var user: Follower? {
+    private var user: User? {
         didSet { collectionView.reloadData() }
     }
 
-    
     //MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,30 +46,24 @@ class FollowersController: UICollectionViewController {
         navigationController?.navigationBar.isHidden = false
     }
     
-   
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.backgroundColor = .darkGray
         configureUI()
         followersManager.delegate = self
         userManager.delegate = self
         getUsername()
-      
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log out", style: .done, target: self, action: #selector(logOut))
-        navigationController?.navigationBar.barStyle = .black
+        configureNavController()
     }
     
     //MARK: - UICollectionViewDelegate and DataSource
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FollowerCell
-        if let followers = followers {
-            let login = followers[indexPath.row].login
-            let profileUrl = followers[indexPath.row].avatar_url
+        if let users = users {
+            let login = users[indexPath.row].login
+            let profileUrl = users[indexPath.row].avatar_url
             cell.viewModel = FollowerViewModel(profileUrl: profileUrl ?? "" , login: login)
         }
-        
         return cell
     }
     
@@ -83,22 +72,21 @@ class FollowersController: UICollectionViewController {
         header.backgroundColor = .darkGray
         header.delegate = self
         if let user = user {
-            let url = URL(string: user.avatar_url!)
-            let followers = followers?.count ?? 0
-            let following = following?.count ?? 0
+            let url = URL(string: user.avatar_url)
+            let followers = user.followers
+            let following = user.following
             let username = user.login
             header.headerViewModel = HeaderViewModel(profileUrl: url!, login: username, followers: followers, following: following)
-            
         }
         return header
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return followers?.count ?? 0
+        return users?.count ?? 0
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let username = followers?[indexPath.row].login else { return }
+        guard let username = users?[indexPath.row].login else { return }
         if let url = URL(string: "https://github.com/\(username)") {
             UIApplication.shared.open(url)
         }
@@ -106,7 +94,14 @@ class FollowersController: UICollectionViewController {
     
     //MARK: - Helpers
     
+    func configureNavController() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log out", style: .done, target: self, action: #selector(logOut))
+        navigationItem.setHidesBackButton(true, animated: true)
+        navigationController?.navigationBar.barStyle = .black
+    }
+    
     func configureUI() {
+        collectionView.backgroundColor = .darkGray
         view.backgroundColor = .darkGray
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.register(FollowersHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier) // registerring header
@@ -115,8 +110,8 @@ class FollowersController: UICollectionViewController {
 
 extension FollowersController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = view.frame.width / 2 - 5
-        let height: CGFloat = 200
+        let width: CGFloat = view.frame.width / 2
+        let height: CGFloat = view.frame.height / 4
         return CGSize(width: width, height: height)
     }
     
@@ -129,7 +124,6 @@ extension FollowersController: UICollectionViewDelegateFlowLayout {
         return 20
     }
     
- 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 100)
     }
@@ -157,25 +151,23 @@ extension FollowersController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
-
 //MARK: - FollowersManagerDelegate
 
 extension FollowersController: FollowersManagerDelegate {
+    
     func fetchFollowing(following: [Follower]) {
-        self.following = following
+        self.users = following
     }
     
     func fetchFollowers(followers: [Follower]) {
-        self.followers = followers
+        self.users = followers
     }
 }
 
 //MARK: - UserManagerDelegate
 
 extension FollowersController: UserManagerDelegate {
-    func fetchUser(user: Follower) {
-        print(user.login)
+    func fetchUser(user: User) {
         self.user = user
     }
 }
@@ -183,6 +175,14 @@ extension FollowersController: UserManagerDelegate {
 //MARK: - FollowersHeaderDelegate
 
 extension FollowersController: FollowersHeaderDelegate {
+    func handleFollowers() {
+        followersManager.fetchFollowers(username: username!)
+    }
+    
+    func handleFollowing() {
+        followersManager.fetcFollowing(username: username!)
+    }
+    
     func fetchUser(username: String) {
         if let url = URL(string: "https://github.com/\(username)") {
             UIApplication.shared.open(url)

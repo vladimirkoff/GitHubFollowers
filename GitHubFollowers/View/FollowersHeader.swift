@@ -9,6 +9,8 @@ import UIKit
 
 protocol FollowersHeaderDelegate: class {
     func fetchUser(username: String)
+    func handleFollowers()
+    func handleFollowing()
 }
 
 class FollowersHeader: UICollectionReusableView {
@@ -23,6 +25,9 @@ class FollowersHeader: UICollectionReusableView {
     var profileImage: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        iv.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        iv.layer.cornerRadius = 80 / 2
         iv.contentMode = .scaleAspectFill
         iv.backgroundColor = .lightGray
         iv.clipsToBounds = true
@@ -58,6 +63,34 @@ class FollowersHeader: UICollectionReusableView {
         return label
     }()
     
+    private lazy var followersButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Followers", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleFollowers), for: .touchUpInside)
+        button.layer.cornerRadius = 5
+        button.layer.borderWidth = 2
+        button.backgroundColor = .systemGreen
+        button.layer.borderColor = UIColor.white.cgColor
+        return button
+    }()
+    
+    private lazy var followingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Following", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.tintColor = .white
+        button.layer.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleFollowing), for: .touchUpInside)
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
+        return button
+    }()
+    
+    
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -65,11 +98,7 @@ class FollowersHeader: UICollectionReusableView {
         
         configureGestureRecognizer()
         
-        
         addSubview(profileImage)
-        profileImage.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        profileImage.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        profileImage.layer.cornerRadius = 80 / 2
         profileImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         profileImage.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
@@ -85,6 +114,20 @@ class FollowersHeader: UICollectionReusableView {
         addSubview(stack)
         stack.topAnchor.constraint(equalTo: userName.bottomAnchor, constant: 12).isActive = true
         stack.leftAnchor.constraint(equalTo: profileImage.rightAnchor, constant: 4).isActive = true
+            
+        followersButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        followersButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        let buttonStack = UIStackView(arrangedSubviews: [followersButton, followingButton])
+        buttonStack.axis = .vertical
+        buttonStack.spacing = 0
+        buttonStack.translatesAutoresizingMaskIntoConstraints = false
+        buttonStack.distribution = .fillEqually
+        
+        addSubview(buttonStack)
+        buttonStack.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        buttonStack.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -12).isActive = true
+        
     }
     
     required init?(coder: NSCoder) {
@@ -106,7 +149,6 @@ class FollowersHeader: UICollectionReusableView {
         followersLabel.attributedText = attributedLabel(value: headerViewModel.followers, label: "Followers")
         profileImage.sd_setImage(with: headerViewModel.profileUrl )
         userName.text = headerViewModel.login
-
     }
     
     func configureGestureRecognizer() {
@@ -120,5 +162,17 @@ class FollowersHeader: UICollectionReusableView {
     @objc func profileImageTapped() {
         guard let username = userName.text else { return }
         delegate?.fetchUser(username: username)
+    }
+    
+    @objc func handleFollowers() {
+        followersButton.backgroundColor = .systemGreen
+        followingButton.backgroundColor = .darkGray
+        delegate?.handleFollowers()
+    }
+    
+    @objc func handleFollowing() {
+        followingButton.backgroundColor = .systemGreen
+        followersButton.backgroundColor = .darkGray
+        delegate?.handleFollowing()
     }
 }

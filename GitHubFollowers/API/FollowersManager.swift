@@ -17,7 +17,7 @@ struct FollowersManager {
    var delegate: FollowersManagerDelegate?
     
    func fetchFollowers(username: String) {
-        guard let url = URL(string: "https://api.github.com/users/vladimirkoff/followers") else { return }
+        guard let url = URL(string: "https://api.github.com/users/\(username)/followers") else { return }
         
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
@@ -45,7 +45,7 @@ struct FollowersManager {
                 }
             }
         } catch {
-            print("Error parsing JSON for followers or following")
+            print("Error parsing JSON for followers or following - \(error)")
         }
     }
     
@@ -64,5 +64,4 @@ struct FollowersManager {
          }
          task.resume()
      }
-    
 }

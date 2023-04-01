@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct User {
-    let username: String
+struct User: Codable {
+    let login: String
     let followers: Int
     let following: Int
-    let profileImageUrl: String
+    let avatar_url: String
 }

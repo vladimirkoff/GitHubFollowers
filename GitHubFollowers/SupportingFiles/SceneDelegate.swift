@@ -27,13 +27,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let data = UserData()
                 data.username = ""
                 realm.add(data)
-                
                 window?.rootViewController = UINavigationController(rootViewController: SignInViewController())
             } 
             
             
         } catch {
-            print("Error")
+            print("Error initializing Realm - \(error.localizedDescription) ")
         }
         window?.makeKeyAndVisible()
     }

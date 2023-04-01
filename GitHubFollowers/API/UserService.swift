@@ -6,7 +6,6 @@
 //
 
 import Foundation
-//import FirebaseAuth
 
 struct UserService {
 
@@ -17,7 +16,7 @@ struct UserService {
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
-                print("Error cheching validation")
+                print("Error cheching validation - \(error.localizedDescription)")
             }
             
             if let data = data {
@@ -25,9 +24,7 @@ struct UserService {
                 DispatchQueue.main.async {
                     completion(isValid)
                 }
-                
             }
-            
         }
         task.resume()
     }
@@ -36,7 +33,7 @@ struct UserService {
         let decoder = JSONDecoder()
         var isValid = true
         do {
-            let decodedData = try decoder.decode(Follower.self, from: data)
+            try decoder.decode(Follower.self, from: data)
         } catch {
             isValid = false
         }

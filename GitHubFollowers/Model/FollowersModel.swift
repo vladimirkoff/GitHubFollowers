@@ -9,5 +9,5 @@ import Foundation
 
 struct Follower: Codable {
     let login: String
-    let avatar_url: String?
+    let avatar_url: String
 }

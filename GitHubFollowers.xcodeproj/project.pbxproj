@@ -25,7 +25,6 @@
 		85EFCE9B29D6C61E0016120B /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EFCE9A29D6C61E0016120B /* UserManager.swift */; };
 		85EFCE9D29D6C9270016120B /* HeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EFCE9C29D6C9270016120B /* HeaderViewModel.swift */; };
 		85EFCEA129D6D6910016120B /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EFCEA029D6D6910016120B /* UserService.swift */; };
-		85EFCEA429D6D6D60016120B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EFCEA329D6D6D60016120B /* Constants.swift */; };
 		85EFCEA629D6D8FD0016120B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EFCEA529D6D8FD0016120B /* User.swift */; };
 		BD15F1BFAE380ADF037A4A02 /* Pods_GitHubFollowers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41531E05BE5C8C7A09C4039D /* Pods_GitHubFollowers.framework */; };
 /* End PBXBuildFile section */
@@ -51,7 +50,6 @@
 		85EFCE9A29D6C61E0016120B /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		85EFCE9C29D6C9270016120B /* HeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewModel.swift; sourceTree = "<group>"; };
 		85EFCEA029D6D6910016120B /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		85EFCEA329D6D6D60016120B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		85EFCEA529D6D8FD0016120B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A984651FD30D445AD39CBD64 /* Pods-GitHubFollowers.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubFollowers.release.xcconfig"; path = "Target Support Files/Pods-GitHubFollowers/Pods-GitHubFollowers.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				8587452B29D7130400FBA8EE /* DatModel */,
-				85EFCEA229D6D6B10016120B /* Utilities */,
 				85EFCE9729D6C31B0016120B /* ViewModel */,
 				85EFCE9029D6BA8A0016120B /* API */,
 				85D9C10729CA08420023C400 /* SupportingFiles */,
@@ -185,14 +182,6 @@
 				85EFCE9C29D6C9270016120B /* HeaderViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		85EFCEA229D6D6B10016120B /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				85EFCEA329D6D6D60016120B /* Constants.swift */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,7 +315,6 @@
 				85EFCE9929D6C3260016120B /* FollowerViewModel.swift in Sources */,
 				85EFCEA629D6D8FD0016120B /* User.swift in Sources */,
 				85EFCE9429D6BB850016120B /* FollowersModel.swift in Sources */,
-				85EFCEA429D6D6D60016120B /* Constants.swift in Sources */,
 				85EFCE9629D6C01E0016120B /* FollowersHeader.swift in Sources */,
 				85EFCEA129D6D6910016120B /* UserService.swift in Sources */,
 				85EFCE9B29D6C61E0016120B /* UserManager.swift in Sources */,

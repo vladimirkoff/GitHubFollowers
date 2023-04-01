@@ -11,7 +11,6 @@ import RealmSwift
 class SignInViewController: UIViewController {
     //MARK: - Properties
     
-    
     private let logo: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -23,17 +22,6 @@ class SignInViewController: UIViewController {
         return iv
     }()
     
-    lazy private var emailField: UITextField = {
-        let tf = UITextField()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        tf.placeholder = "Email"
-        tf.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        tf.backgroundColor = .white
-        tf.layer.cornerRadius = 10
-        tf.delegate = self
-        return tf
-    }()
-    
     lazy private var usernameField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -42,17 +30,6 @@ class SignInViewController: UIViewController {
         tf.heightAnchor.constraint(equalToConstant: 60).isActive = true
         tf.backgroundColor = .white
         tf.layer.cornerRadius = 10
-        return tf
-    }()
-    
-    lazy private var passwordField: UITextField = {
-        let tf = UITextField()
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        tf.placeholder = "Password"
-        tf.isSecureTextEntry = true
-        tf.backgroundColor = .white
-        tf.layer.cornerRadius = 10
-        tf.delegate = self
         return tf
     }()
     
@@ -68,41 +45,31 @@ class SignInViewController: UIViewController {
         return button
     }()
     
-    
     //MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barStyle = .black
+        let data = UserData()
+        data.username = ""
         do {
-            let realm = try Realm()
-            try realm.write {
-                let data = UserData()
-                data.username = ""
-                realm.add(data)
-
-            }
-            
-            
+            try save(data: data)
         } catch {
-            print("Error")
+            print("Error saving data - \(error)")
         }
         checkIfLoggedIn()
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray
         configureUI()
-        navigationController?.navigationBar.barStyle = .black
     }
     
     //MARK: - Selectors
     
     @objc func logIn() {
-        guard let email = emailField.text else { return }
-        guard let password = passwordField.text else { return }
         guard let username = usernameField.text else { return }
    
         UserService.checkIfUsernameValid(username: username, completion: { [weak self] isValid in
@@ -151,28 +118,25 @@ class SignInViewController: UIViewController {
         } catch {
             print("Error")
         }
-            
     }
     
     func configureUI() {
-        let stack = UIStackView(arrangedSubviews: [usernameField, emailField, passwordField, signInButton])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.spacing = 30
-        
-        view.addSubview(stack)
-        stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200).isActive = true
-        stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        stack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-        
         view.addSubview(logo)
-        
-        logo.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        logo.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        logo.bottomAnchor.constraint(equalTo: stack.topAnchor, constant: -30).isActive = true
+        logo.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        logo.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        logo.topAnchor.constraint(equalTo: view.topAnchor, constant: 250).isActive = true
         logo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        view.addSubview(usernameField)
+        usernameField.widthAnchor.constraint(equalToConstant: view.frame.width - 50).isActive = true
+        usernameField.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 20).isActive = true
+        usernameField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        view.addSubview(signInButton)
+        signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        signInButton.widthAnchor.constraint(equalToConstant: view.frame.width - 50).isActive = true
+        signInButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        signInButton.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 20).isActive = true
         
     }
     
@@ -186,10 +150,8 @@ class SignInViewController: UIViewController {
 
 extension SignInViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        guard let email = emailField.text else { return false }
-        guard let password = passwordField.text else { return false }
         guard let username = usernameField.text else { return false }
-
+   
         UserService.checkIfUsernameValid(username: username, completion: { [weak self] isValid in
             if !isValid {
                 self?.createAlert()
@@ -197,7 +159,7 @@ extension SignInViewController: UITextFieldDelegate {
             }
             let data = UserData()
             data.username = username
-
+            
             do {
                 try self?.save(data: data)
             } catch {
