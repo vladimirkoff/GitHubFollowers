@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol FollowersManagerDelegate {
     func fetchFollowers(followers: [Follower])
@@ -17,19 +18,24 @@ struct FollowersManager {
    var delegate: FollowersManagerDelegate?
     
    func fetchFollowers(username: String) {
-        guard let url = URL(string: "https://api.github.com/users/\(username)/followers") else { return }
+//        guard let url = URL(string: "https://api.github.com/users/\(username)/followers") else { return }
         
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error fetching followers = \(error)")
-                return
-            }
-            if let data = data {
-                self.parseJSONa(data: data, followers: true)
-            }
-        }
-        task.resume()
+//        let session = URLSession(configuration: .default)
+//        let task = session.dataTask(with: url) { data, response, error in
+//            if let error = error {
+//                print("Error fetching followers = \(error)")
+//                return
+//            }
+//            if let data = data {
+//                self.parseJSONa(data: data, followers: true)
+//            }
+//        }
+//        task.resume()
+       
+       AF.request("https://api.github.com/users/\(username)/followers").response { response in
+           guard let data = response.data else { return }
+           parseJSONa(data: data, followers: true)
+       }
     }
     
     func parseJSONa(data: Foundation.Data, followers: Bool) {
@@ -50,18 +56,24 @@ struct FollowersManager {
     }
     
     func fetcFollowing(username: String) {
-         guard let url = URL(string: "https://api.github.com/users/\(username)/following") else { return }
-         
-         let session = URLSession(configuration: .default)
-         let task = session.dataTask(with: url) { data, response, error in
-             if let error = error {
-                 print("Error fetching followers = \(error)")
-                 return
-             }
-             if let data = data {
-                 self.parseJSONa(data: data, followers: false)
-             }
-         }
-         task.resume()
+//         guard let url = URL(string: "https://api.github.com/users/\(username)/following") else { return }
+//
+//         let session = URLSession(configuration: .default)
+//         let task = session.dataTask(with: url) { data, response, error in
+//             if let error = error {
+//                 print("Error fetching followers = \(error)")
+//                 return
+//             }
+//             if let data = data {
+//                 self.parseJSONa(data: data, followers: false)
+//             }
+//         }
+//         task.resume()
+        
+        AF.request("https://api.github.com/users/\(username)/following").response { response in
+            guard let data = response.data else { return }
+            
+            parseJSONa(data: data, followers: false)
+        }
      }
 }
