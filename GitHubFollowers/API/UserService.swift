@@ -6,27 +6,42 @@
 //
 
 import Foundation
+import Alamofire
 
 struct UserService {
 
     static func checkIfUsernameValid(username: String, completion: @escaping(Bool) -> ()) {
-        guard let url = URL(string: "https://api.github.com/users/vladimirkoff") else { return }
+        guard let url = URL(string: "https://api.github.com/users/\(username)") else { return }
         var isValid = true
         
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error cheching validation - \(error.localizedDescription)")
-            }
-            
-            if let data = data {
-                isValid = self.parseJSON(data: data)
-                DispatchQueue.main.async {
-                    completion(isValid)
-                }
+        // URLSession
+        
+//        let session = URLSession(configuration: .default)
+//        let task = session.dataTask(with: url) { data, response, error in
+//            if let error = error {
+//                print("Error cheching validation - \(error.localizedDescription)")
+//            }
+//
+//            if let data = data {
+//                isValid = self.parseJSON(data: data)
+//                DispatchQueue.main.async {
+//                    completion(isValid)
+//                }
+//            }
+//        }
+//        task.resume()
+        
+        //Alamofire
+        
+        AF.request("https://api.github.com/users/\(username)").response { response in
+            guard let data = response.data else { return }
+            isValid = self.parseJSON(data: data)
+            DispatchQueue.main.async {
+                completion(isValid)
             }
         }
-        task.resume()
+        
+        
     }
     
     static func parseJSON(data: Foundation.Data) -> Bool {

@@ -108,15 +108,13 @@ class SignInViewController: UIViewController {
                 let username = realm.objects(UserData.self).sorted(by: { a, b in
                     a.username.count > b.username.count
                 })[0].username
-                print(username)
                 if username != "" {
                     let vc = FollowersController(collectionViewLayout: UICollectionViewFlowLayout())
                     navigationController?.pushViewController(vc, animated: true)
                 }
-                
             })
         } catch {
-            print("Error")
+            print("Error checking user - \(error.localizedDescription)")
         }
     }
     

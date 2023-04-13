@@ -87,12 +87,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8587452B29D7130400FBA8EE /* DatModel */ = {
+		8587452B29D7130400FBA8EE /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
 				8587452C29D7130900FBA8EE /* Data.swift */,
 			);
-			path = DatModel;
+			path = DataModel;
 			sourceTree = "<group>";
 		};
 		85D9C0DE29C9FCBF0023C400 = {
@@ -116,7 +116,7 @@
 		85D9C0E929C9FCBF0023C400 /* GitHubFollowers */ = {
 			isa = PBXGroup;
 			children = (
-				8587452B29D7130400FBA8EE /* DatModel */,
+				8587452B29D7130400FBA8EE /* DataModel */,
 				85EFCE9729D6C31B0016120B /* ViewModel */,
 				85EFCE9029D6BA8A0016120B /* API */,
 				85D9C10729CA08420023C400 /* SupportingFiles */,

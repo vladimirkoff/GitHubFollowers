@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol FollowersHeaderDelegate: class {
+protocol FollowersHeaderDelegate: AnyObject {
     func fetchUser(username: String)
     func handleFollowers()
     func handleFollowing()
@@ -22,7 +22,7 @@ class FollowersHeader: UICollectionReusableView {
     
     weak var delegate: FollowersHeaderDelegate?
     
-    var profileImage: UIImageView = {
+    private let profileImage: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.heightAnchor.constraint(equalToConstant: 80).isActive = true
@@ -37,7 +37,7 @@ class FollowersHeader: UICollectionReusableView {
         return iv
     }()
     
-    var userName: UILabel = {
+    private let userName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 16)
@@ -45,7 +45,7 @@ class FollowersHeader: UICollectionReusableView {
         return label
     }()
     
-    lazy var followersLabel: UILabel = {
+    private let followersLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -54,7 +54,7 @@ class FollowersHeader: UICollectionReusableView {
         return label
     }()
     
-    lazy  var followingLabel: UILabel = {
+    private let followingLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center

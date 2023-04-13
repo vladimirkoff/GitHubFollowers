@@ -15,9 +15,6 @@ private let headerIdentifier = "FollowersHeader"
 class FollowersController: UICollectionViewController {
     //MARK: - Properties
     
-    private var followersManager = FollowersManager()
-    private var userManager = UserManager()
-    
     private var username: String?
     
     private var realmUser: Results<UserData>? {
@@ -26,8 +23,8 @@ class FollowersController: UICollectionViewController {
                 a.username.count > b.username.count
             })
             username = realmArray[0].username
-            userManager.fetchUser(username: realmArray[0].username)
-            followersManager.fetchFollowers(username: realmArray[0].username)
+            UserManager.fetchUser(username: realmArray[0].username)
+            FollowersManager.fetchFollowers(username: realmArray[0].username)
         }
     }
     
@@ -38,7 +35,7 @@ class FollowersController: UICollectionViewController {
     private var user: User? {
         didSet { collectionView.reloadData() }
     }
-
+    
     //MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,8 +46,8 @@ class FollowersController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        followersManager.delegate = self
-        userManager.delegate = self
+        FollowersManager.delegate = self
+        UserManager.delegate = self
         getUsername()
         configureNavController()
     }
@@ -62,7 +59,7 @@ class FollowersController: UICollectionViewController {
         if let users = users {
             let login = users[indexPath.row].login
             let profileUrl = users[indexPath.row].avatar_url
-            cell.viewModel = FollowerViewModel(profileUrl: profileUrl ?? "" , login: login)
+            cell.viewModel = FollowerViewModel(profileUrl: profileUrl , login: login)
         }
         return cell
     }
@@ -144,7 +141,7 @@ extension FollowersController: UICollectionViewDelegateFlowLayout {
                 realm.deleteAll()
             }
         } catch {
-            print(error)
+            print("Error logging out - \(error.localizedDescription)")
         }
         let vc = SignInViewController()
         navigationController?.pushViewController(vc, animated: true)
@@ -176,11 +173,11 @@ extension FollowersController: UserManagerDelegate {
 
 extension FollowersController: FollowersHeaderDelegate {
     func handleFollowers() {
-        followersManager.fetchFollowers(username: username!)
+        FollowersManager.fetchFollowers(username: username!)
     }
     
     func handleFollowing() {
-        followersManager.fetcFollowing(username: username!)
+        FollowersManager.fetcFollowing(username: username!)
     }
     
     func fetchUser(username: String) {

@@ -15,7 +15,7 @@ class FollowerCell: UICollectionViewCell {
         didSet { configure() }
     }
     
-    var userName: UILabel = {
+    private let userName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14)
@@ -38,7 +38,6 @@ class FollowerCell: UICollectionViewCell {
         super.init(frame: frame)
         self.backgroundColor = .darkGray
         
-        
         addSubview(profileImage)
         profileImage.heightAnchor.constraint(equalToConstant: self.frame.height - 45 ).isActive = true
         profileImage.widthAnchor.constraint(equalToConstant: self.frame.width - 45 ).isActive = true
@@ -46,7 +45,6 @@ class FollowerCell: UICollectionViewCell {
         profileImage.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         profileImage.layer.cornerRadius = 8
 
-        
         addSubview(userName)
         userName.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -7).isActive = true
         userName.leftAnchor.constraint(equalTo: profileImage.leftAnchor).isActive = true

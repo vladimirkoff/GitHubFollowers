@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol UserManagerDelegate {
     func fetchUser(user: User)
@@ -13,26 +14,34 @@ protocol UserManagerDelegate {
 
 struct UserManager {
     
-    var delegate: UserManagerDelegate?
+   static var delegate: UserManagerDelegate?
      
-    func fetchUser(username: String) {
-        print("Username is - \(username)")
+  static func fetchUser(username: String) {
          guard let url = URL(string: "https://api.github.com/users/\(username)") else { return }
+        
+        // URLSession
          
-         let session = URLSession(configuration: .default)
-         let task = session.dataTask(with: url) { data, response, error in
-             if let error = error {
-                 print("Error fetching followers = \(error)")
-                 return
-             }
-             if let data = data {
-                 parseJSONa(data: data)
-             }
-         }
-         task.resume()
-     }
+//         let session = URLSession(configuration: .default)
+//         let task = session.dataTask(with: url) { data, response, error in
+//             if let error = error {
+//                 print("Error fetching followers = \(error)")
+//                 return
+//             }
+//             if let data = data {
+//                 parseJSONa(data: data)
+//             }
+//         }
+//         task.resume()
+        
+        // Alamofire
+        
+        AF.request("https://api.github.com/users/\(username)").response { response in
+            guard let data = response.data else { return }
+            parseJSONa(data: data)
+        }
+    }
      
-    func parseJSONa(data: Foundation.Data) {
+  static func parseJSONa(data: Foundation.Data) {
          let decoder = JSONDecoder()
          
          do {

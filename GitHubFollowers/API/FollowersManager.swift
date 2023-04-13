@@ -15,9 +15,11 @@ protocol FollowersManagerDelegate {
 
 struct FollowersManager {
     
-   var delegate: FollowersManagerDelegate?
+  static var delegate: FollowersManagerDelegate?
     
-   func fetchFollowers(username: String) {
+  static func fetchFollowers(username: String) {
+       // URLSession
+       
 //        guard let url = URL(string: "https://api.github.com/users/\(username)/followers") else { return }
         
 //        let session = URLSession(configuration: .default)
@@ -32,13 +34,15 @@ struct FollowersManager {
 //        }
 //        task.resume()
        
+       // Alamofire
+       
        AF.request("https://api.github.com/users/\(username)/followers").response { response in
            guard let data = response.data else { return }
            parseJSONa(data: data, followers: true)
        }
     }
     
-    func parseJSONa(data: Foundation.Data, followers: Bool) {
+  static func parseJSONa(data: Foundation.Data, followers: Bool) {
         let decoder = JSONDecoder()
         
         do {
@@ -55,7 +59,7 @@ struct FollowersManager {
         }
     }
     
-    func fetcFollowing(username: String) {
+  static  func fetcFollowing(username: String) {
 //         guard let url = URL(string: "https://api.github.com/users/\(username)/following") else { return }
 //
 //         let session = URLSession(configuration: .default)
