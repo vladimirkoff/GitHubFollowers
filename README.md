@@ -1,14 +1,44 @@
-# GitHubFollowers allows you to check the user's followers and following by their username using GitHubApi
+# GitHubFollowers
 
-![Simulator Screen Shot - iPhone 14 Pro - 2023-04-01 at 10 29 26](https://user-images.githubusercontent.com/115025494/229274049-b1460eb6-9bb5-441d-9310-77a93ec3fd47.png)
+### A simple UIKit app for getting GitHub followers and following by username
 
-# You can see all of the followers in the table
+- Log in by username
+- Check your followers
+- Check your following
+- App remembers wether you are logged in or not
 
-![Simulator Screen Shot - iPhone 14 Pro - 2023-04-01 at 10 29 44](https://user-images.githubusercontent.com/115025494/229274056-493f8b9d-9bff-47c4-85dc-510ae822c347.png)
+## Download & Run
 
-# And all of the follwoing
-![Simulator Screen Shot - iPhone 14 Pro - 2023-04-01 at 10 29 57](https://user-images.githubusercontent.com/115025494/229274059-be5c24d1-4344-4179-80d5-6164c92c9469.png)
 
-# You can also click the user to see their profile on GitHub.com
+1. Clone this repository
 
-![Simulator Screen Shot - iPhone 14 Pro - 2023-04-01 at 10 30 10](https://user-images.githubusercontent.com/115025494/229274062-814d6c54-1b80-4bc5-8348-27e87a304429.png)
+```bash
+git clone https://github.com/vladimirkoff/secureNotes.git
+```
+
+
+
+
+
+
+2. Open secureNote.xcworkspace in Xcode
+
+3. Select some iOS/iPadOS device and hit run button in Xcode
+
+> **Note**: Minimal supported iOS/iPadOS version is 15.0
+
+###  Usage
+
+###  See your saved notes or create one
+
+| Create a note  | Check your notes |
+| ------------- | ------------- | 
+|![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 11 24 59](https://user-images.githubusercontent.com/115025494/231700338-24a573d7-b11f-434e-9d15-755f41105d73.png) |![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 09 51 49](https://user-images.githubusercontent.com/115025494/231700401-00603cdf-8a3a-445c-9ed0-1ec39e934b24.png)| 
+
+###  Lock or unlock your note
+
+| Lock or Unlock | 
+| ------------- | 
+|![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 09 52 01](https://user-images.githubusercontent.com/115025494/231700580-d54b04f6-c6e7-4423-8e08-cd995282956c.png)| 
+
+
