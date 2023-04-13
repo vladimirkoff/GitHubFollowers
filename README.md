@@ -13,7 +13,7 @@
 1. Clone this repository
 
 ```bash
-git clone https://github.com/vladimirkoff/secureNotes.git
+git clone https://github.com/vladimirkoff/GitHubFollowers.git
 ```
 
 
@@ -21,7 +21,10 @@ git clone https://github.com/vladimirkoff/secureNotes.git
 
 
 
-2. Open secureNote.xcworkspace in Xcode
+
+
+
+2. Open GitHubFollowers.xcworkspace in Xcode
 
 3. Select some iOS/iPadOS device and hit run button in Xcode
 
@@ -29,16 +32,11 @@ git clone https://github.com/vladimirkoff/secureNotes.git
 
 ###  Usage
 
-###  See your saved notes or create one
 
-| Create a note  | Check your notes |
-| ------------- | ------------- | 
-|![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 11 24 59](https://user-images.githubusercontent.com/115025494/231700338-24a573d7-b11f-434e-9d15-755f41105d73.png) |![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 09 51 49](https://user-images.githubusercontent.com/115025494/231700401-00603cdf-8a3a-445c-9ed0-1ec39e934b24.png)| 
+| Log in  | Check your followers | Check your following |
+| ------------- | ------------- | ------------- | 
+|![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 11 46 20](https://user-images.githubusercontent.com/115025494/231709134-538ac3b7-fd40-4a3f-8f0b-6a6686ad5bf6.png) |![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 11 46 32](https://user-images.githubusercontent.com/115025494/231709152-6774cfe1-f58f-4d49-88ac-ee44ee76f426.png)| ![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 11 46 35](https://user-images.githubusercontent.com/115025494/231709163-027744ae-2cdb-4791-845e-9201e97c4c81.png)|
 
-###  Lock or unlock your note
 
-| Lock or Unlock | 
-| ------------- | 
-|![Simulator Screen Shot - iPhone 14 Pro - 2023-04-13 at 09 52 01](https://user-images.githubusercontent.com/115025494/231700580-d54b04f6-c6e7-4423-8e08-cd995282956c.png)| 
 
 
